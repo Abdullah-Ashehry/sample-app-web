@@ -8,6 +8,7 @@ var testTool = {
         match,
         p1
       ) {
+        console.log("This is 64Encoded: "+String.fromCharCode("0x" + p1));
         return String.fromCharCode("0x" + p1);
       })
     );
@@ -33,20 +34,18 @@ var testTool = {
       navigator.userAgent.match(/Windows Phone/i)
     );
   },
+
+  // TODO: HardCode This
   getMeetingConfig: function () {
     return {
-      mn: parseInt(document.getElementById("meeting_number").value),
-      name: testTool.b64EncodeUnicode(
-        document.getElementById("display_name").value
-      ),
-      pwd: document.getElementById("meeting_pwd").value,
-      role: parseInt(document.getElementById("meeting_role").value, 10),
-      email: testTool.b64EncodeUnicode(
-        document.getElementById("meeting_email").value
-      ),
-      lang: document.getElementById("meeting_lang").value,
+      mn: 5714270549,
+      name: Math.floor(Math.random() * 1000),
+      pwd: "03nxU7",
+      role: 0,
+      email: "",
+      lang: "en-US",
       signature: "",
-      china: document.getElementById("meeting_china").value,
+      china: 0,
     };
   },
   createZoomNode: function (id, url) {
@@ -54,7 +53,8 @@ var testTool = {
     zoomIframe.id = id;
     zoomIframe.sandbox =
       "allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox";
-    zoomIframe.allow = "microphone; camera; fullscreen;";
+    zoomIframe.allow = "microphone; fullscreen;";
+    
     zoomIframe.src = url;
     zoomIframe.style = "";
     if (typeof document.body.append === "function") {

@@ -6,6 +6,8 @@
     <link type="text/css" rel="stylesheet" href="https://source.zoom.us/1.9.6/css/bootstrap.css" />
     <link type="text/css" rel="stylesheet" href="https://source.zoom.us/1.9.6/css/react-select.css" />
     <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="style.css" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 </head>
@@ -56,6 +58,79 @@
 
     <nav id="nav-tool" class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
+
+            <div class="header">
+                <img
+                    id="logo"
+                    src="../assets/WhiteHelmetLogo.png"
+                    width="120px"
+                    height="5%"
+                    style="float: left"
+                />
+                <a class="logo">Live Stream 360 </a>
+                <!-- <img src="assets/WhiteHelmetLogo.png"> -->
+                <div class="header-right">
+                    <a href="">Contact</a>
+                </div>
+            </div>
+            <button
+                class="btn btn-primary"
+                style="text-align: center"
+                onclick="toggleFS();"
+            >
+                Fullscreen
+            </button>
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3"> -->
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <div id="player" class="embed-responsive-item"></div>
+    
+                        <!-- <script type="text//javascript" src="https://cdn.rawgit.com/thiagopnts/clappr-video360/master/dist/clappr-video360.min.js"></script> -->
+    
+                        <!-- Include the 360 videoplayer plugin -->
+                        <script src="https://app.whitehelmet.xyz/clappr.js"></script>
+                        <!-- Include the 360 videoplayer plugin -->
+                        <script src="https://app.whitehelmet.xyz/clappr-video360.min.js"></script>
+                        <!-- 3. Configure video player-->
+                    </div>
+                    <script>
+                        //change url here
+                        let link =
+                            "https://cdn3.wowza.com/1/czlYcUoxakNQOS82/Wnkxd280/hls/live/playlist.m3u8";
+    
+                        var Video360Url = link;
+    
+                        // Configure your Clappr player.
+                        var PlayerInstance = new Clappr.Player({
+                            source: Video360Url,
+                            autoPlay: true,
+                            plugins: {
+                                container: [Video360],
+                            },
+                            parentId: "#player",
+                            height: "60%",
+                            width: "80%",
+                        });
+                        // player.getPlugin("click_to_pause").disable();
+                        PlayerInstance.mute();
+    
+                        // Important to disable the click to pause native plugin of clappr
+                        // otherwise you won't be able to use correctly the player
+                        PlayerInstance.getPlugin("click_to_pause").disable();
+                        PlayerInstance.core.mediaControl.disable();
+                        function toggleFS() {
+                            PlayerInstance.core.toggleFullscreen();
+                        }
+    
+                        PlayerInstance.on(Clappr.Events.PLAYER_PLAY, function () {
+                            PlayerInstance.core.mediaControl.disable();
+                        });
+                    </script>
+                </div>
+            </div>
+
+
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">Zoom WebSDK</a>
             </div>
@@ -153,6 +228,10 @@
 
 
     </script>
+
+
+    
+
 </body>
 
 </html>

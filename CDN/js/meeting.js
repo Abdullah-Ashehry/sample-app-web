@@ -42,23 +42,38 @@ function websdkready() {
     china: tmpArgs.china === "1",
   };
 
-  // a tool use debug mobile device
-  if (testTool.isMobileDevice()) {
-    vConsole = new VConsole();
-  }
-  console.log(JSON.stringify(ZoomMtg.checkSystemRequirements()));
 
-  // it's option if you want to change the WebSDK dependency link resources. setZoomJSLib must be run at first
-  // ZoomMtg.setZoomJSLib("https://source.zoom.us/1.9.6/lib", "/av"); // CDN version defaul
-  if (meetingConfig.china)
-    ZoomMtg.setZoomJSLib("https://jssdk.zoomus.cn/1.9.6/lib", "/av"); // china cdn option
+  console.log(JSON.stringify(ZoomMtg.checkSystemRequirements()));
+  
+
   ZoomMtg.preLoadWasm();
   ZoomMtg.prepareJssdk();
+  ZoomMtg.showJoinAudioFunction({
+    show: false
+   });
+   ZoomMtg.showInviteFunction({
+    show: false
+   });
+   ZoomMtg.showMeetingHeader({
+    show: false
+   });
+   ZoomMtg.showRecordFunction({
+    show: false
+   });
+   ZoomMtg.showCalloutFunction({
+    show: false
+   });
+   ZoomMtg.showPureSharingContent({
+    show: false
+   });
+
+
   function beginJoin(signature) {
     ZoomMtg.init({
       leaveUrl: meetingConfig.leaveUrl,
       webEndpoint: meetingConfig.webEndpoint,
       disableCORP: !window.crossOriginIsolated, // default true
+      
       // disablePreview: false, // default false
       success: function () {
         console.log(meetingConfig);
@@ -92,21 +107,6 @@ function websdkready() {
       },
     });
 
-    ZoomMtg.inMeetingServiceListener('onUserJoin', function (data) {
-      console.log('inMeetingServiceListener onUserJoin', data);
-    });
-  
-    ZoomMtg.inMeetingServiceListener('onUserLeave', function (data) {
-      console.log('inMeetingServiceListener onUserLeave', data);
-    });
-  
-    ZoomMtg.inMeetingServiceListener('onUserIsInWaitingRoom', function (data) {
-      console.log('inMeetingServiceListener onUserIsInWaitingRoom', data);
-    });
-  
-    ZoomMtg.inMeetingServiceListener('onMeetingStatus', function (data) {
-      console.log('inMeetingServiceListener onMeetingStatus', data);
-    });
   }
 
   beginJoin(meetingConfig.signature);
